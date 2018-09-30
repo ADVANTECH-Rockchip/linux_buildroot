@@ -1,3 +1,13 @@
+
+LOCAL_DIR=$(pwd)
+BUILDROOT_DIR=$LOCAL_DIR/buildroot
+BUILD_OUTPUT_DIR=$LOCAL_DIR/buildroot/output
+
+echo "LOCAL_DIR=$LOCAL_DIR"
+echo "BUILDROOT_DIR=$BUILDROOT_DIR"
+echo "BUILD_OUTPUT_DIR=$BUILD_OUTPUT_DIR"
+
+
 DEFCONFIG_ARRAY=("rockchip_rk3308_release" "rockchip_rk3308_32_release" "rockchip_rk3308_32_debug" \
     "rockchip_rk3308_32_dueros" "rockchip_rk3308_64_dueros" \
     "rockchip_rk3308_robot_release" "rockchip_rk3308_mini_release" "rockchip_rk3308_32_mini_release" \
