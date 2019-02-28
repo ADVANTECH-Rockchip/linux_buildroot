@@ -34,9 +34,11 @@ ifeq ($(BR2_PACKAGE_DUERCLIENTSDK),y)
         BROADCOM_BSA_DUERCLIENTSDK = $(BR2_PACKAGE_DUERCLIENTSDK)
         BROADCOM_BSA_BT_SINK_FILE = bsa_bt_sink_dueros.sh
         BROADCOM_BSA_BLE_WIFI_CONFIG_FILE = bsa_ble_wifi_introducer_dueros.sh
+        BROADCOM_BSA_BT_HFP_FILE = bsa_bt_hfp_dueros.sh
 else
         BROADCOM_BSA_BT_SINK_FILE = bsa_bt_sink.sh
         BROADCOM_BSA_BLE_WIFI_CONFIG_FILE = bsa_ble_wifi_introducer.sh
+        BROADCOM_BSA_BT_HFP_FILE = bsa_bt_hfp.sh
 endif
 
 define BROADCOM_BSA_BUILD_CMDS
@@ -48,16 +50,16 @@ endef
 define BROADCOM_BSA_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 755 $(@D)/server/$(BROADCOM_BSA_BUILD_TYPE)/bsa_server \
 		$(TARGET_DIR)/usr/bin/bsa_server
-	$(INSTALL) -D -m 755 $(@D)/$(BROADCOM_BSA_PATH)/$(BROADCOM_BSA_LIBBSA)/build/$(BROADCOM_BSA_BUILD_TYPE)/sharedlib/libbsa.so \
+	$(INSTALL) -D -m 644 $(@D)/$(BROADCOM_BSA_PATH)/$(BROADCOM_BSA_LIBBSA)/build/$(BROADCOM_BSA_BUILD_TYPE)/sharedlib/libbsa.so \
 		$(TARGET_DIR)/usr/lib/libbsa.so
 	for ff in $(BROADCOM_BSA_APP); do \
 		$(INSTALL) -D -m 755 $(@D)/$(BROADCOM_BSA_PATH)/$${ff}/build/$(BROADCOM_BSA_BUILD_TYPE)/$${ff} $(TARGET_DIR)/usr/bin/${ff}; \
 	done
 
 	mkdir -p $(TARGET_DIR)/etc/bsa_file
-	$(INSTALL) -D -m 755 $(TOPDIR)/../external/broadcom_bsa/test_files/av/8k8bpsMono.wav $(TARGET_DIR)/etc/bsa_file/
-	$(INSTALL) -D -m 755 $(TOPDIR)/../external/broadcom_bsa/test_files/av/8k16bpsStereo.wav $(TARGET_DIR)/etc/bsa_file/
-	$(INSTALL) -D -m 755 package/rockchip/broadcom_bsa/bsa_bt_hfp.sh $(TARGET_DIR)/usr/bin/
+	$(INSTALL) -D -m 644 $(TOPDIR)/../external/broadcom_bsa/test_files/av/8k8bpsMono.wav $(TARGET_DIR)/etc/bsa_file/
+	$(INSTALL) -D -m 644 $(TOPDIR)/../external/broadcom_bsa/test_files/av/8k16bpsStereo.wav $(TARGET_DIR)/etc/bsa_file/
+	$(INSTALL) -D -m 755 package/rockchip/broadcom_bsa/$(BROADCOM_BSA_BT_HFP_FILE) $(TARGET_DIR)/usr/bin/bsa_bt_hfp.sh
 	$(INSTALL) -D -m 755 package/rockchip/broadcom_bsa/bsa_server.sh $(TARGET_DIR)/usr/bin/
 	$(INSTALL) -D -m 755 package/rockchip/broadcom_bsa/$(BROADCOM_BSA_BT_SINK_FILE) $(TARGET_DIR)/usr/bin/bsa_bt_sink.sh
 	$(INSTALL) -D -m 755 package/rockchip/broadcom_bsa/bsa_bt_source.sh $(TARGET_DIR)/usr/bin/

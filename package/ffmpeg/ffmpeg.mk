@@ -19,7 +19,7 @@ endif
 FFMPEG_CONF_OPTS = \
 	--prefix=/usr \
 	--enable-avfilter \
-	--disable-version3 \
+	--enable-version3 \
 	--enable-logging \
 	--enable-optimizations \
 	--disable-extra-warnings \
@@ -254,12 +254,35 @@ else
 FFMPEG_CONF_OPTS += --disable-vdpau
 endif
 
+ifeq ($(BR2_PACKAGE_MPP),y)
+FFMPEG_DEPENDENCIES += mpp libdrm
+FFMPEG_CONF_OPTS += --enable-rkmpp --enable-libdrm
+# --disable-v4l2-m2m seems no effect, disable each v4l2m2m
+FFMPEG_CONF_OPTS += \
+	--disable-decoder=h264_v4l2m2m \
+	--disable-decoder=vp8_v4l2m2m \
+	--disable-decoder=mpeg2_v4l2m2m \
+	--disable-decoder=mpeg4_v4l2m2m
+FFMPEG_CONF_OPTS += \
+	--disable-encoder=h264_v4l2m2m \
+	--disable-encoder=vp8_v4l2m2m \
+	--disable-encoder=mpeg2_v4l2m2m \
+	--disable-encoder=mpeg4_v4l2m2m
+else
+FFMPEG_CONF_OPTS += --disable-rkmpp
+endif
+
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 FFMPEG_CONF_OPTS += --enable-mmal --enable-omx --enable-omx-rpi \
 	--extra-cflags=-I$(STAGING_DIR)/usr/include/IL
 FFMPEG_DEPENDENCIES += rpi-userland
 else
 FFMPEG_CONF_OPTS += --disable-mmal --disable-omx --disable-omx-rpi
+endif
+
+ifeq ($(BR2_PACKAGE_DRM_HELPER_DISPLAY),y)
+FFMPEG_CONF_OPTS += --extra-cflags=-DLIBDRM_DISPLAY=1
+FFMPEG_CONF_OPTS += --extra-libs=-ldrm_display
 endif
 
 # To avoid a circular dependency only use opencv if opencv itself does
