@@ -400,6 +400,7 @@ unexport CPP
 unexport RANLIB
 unexport CFLAGS
 unexport CXXFLAGS
+unexport UNZIP
 unexport GREP_OPTIONS
 unexport TAR_OPTIONS
 unexport CONFIG_SITE
@@ -408,6 +409,8 @@ unexport TERMINFO
 unexport MACHINE
 unexport O
 unexport GCC_COLORS
+unexport PLATFORM
+unexport OS
 
 GNU_HOST_NAME := $(shell support/gnuconfig/config.guess)
 
@@ -567,6 +570,13 @@ sdk: world
 	$(INSTALL) -m 755 $(TOPDIR)/support/misc/relocate-sdk.sh $(HOST_DIR)/relocate-sdk.sh
 	echo $(HOST_DIR) > $(HOST_DIR)/share/buildroot/sdk-location
 
+.PHONY: reinstall
+clean-for-reinstall: $(patsubst %,%-clean-for-reinstall,$(PACKAGES))
+	rm -rf $(TARGET_DIR) $(BINARIES_DIR) $(HOST_DIR)
+	find $(BUILD_DIR) -name ".stamp_*_installed" -delete
+
+reinstall: clean-for-reinstall all
+
 # Compatibility symlink in case a post-build script still uses $(HOST_DIR)/usr
 $(HOST_DIR)/usr: $(HOST_DIR)
 	@ln -snf . $@
@@ -722,10 +732,14 @@ endif
 # debugging symbols.
 	find $(TARGET_DIR)/lib/ -type f -name 'ld-*.so*' | \
 		xargs -r $(STRIPCMD) $(STRIP_STRIP_DEBUG)
+
+ifneq ($(BR2_TOOLCHAIN_USES_GLIBC),y)
 	test -f $(TARGET_DIR)/etc/ld.so.conf && \
 		{ echo "ERROR: we shouldn't have a /etc/ld.so.conf file"; exit 1; } || true
 	test -d $(TARGET_DIR)/etc/ld.so.conf.d && \
 		{ echo "ERROR: we shouldn't have a /etc/ld.so.conf.d directory"; exit 1; } || true
+endif
+
 	mkdir -p $(TARGET_DIR)/etc
 	( \
 		echo "NAME=Buildroot"; \
@@ -735,6 +749,11 @@ endif
 		echo "PRETTY_NAME=\"Buildroot $(BR2_VERSION)\"" \
 	) >  $(TARGET_DIR)/usr/lib/os-release
 	ln -sf ../usr/lib/os-release $(TARGET_DIR)/etc
+	( \
+		echo "RK_MODEL=$(RK_MODEL)"; \
+		echo "RK_VERSION=$(RK_VERSION)"; \
+		echo "RK_OTA_HOST=$(RK_OTA_HOST)"; \
+	) >  $(TARGET_DIR)/etc/version
 
 	@$(call MESSAGE,"Sanitizing RPATH in target tree")
 	$(TOPDIR)/support/scripts/fix-rpath target
@@ -757,7 +776,6 @@ target-post-image: $(TARGETS_ROOTFS) target-finalize
 
 .PHONY: source
 source: $(foreach p,$(PACKAGES),$(p)-all-source)
-
 .PHONY: _external-deps external-deps
 _external-deps: $(foreach p,$(PACKAGES),$(p)-all-external-deps)
 external-deps:
@@ -1001,6 +1019,7 @@ help:
 	@echo '  all                    - make world'
 	@echo '  toolchain              - build toolchain'
 	@echo '  sdk                    - build relocatable SDK'
+	@echo '  reinstall              - reinstall all'
 	@echo
 	@echo 'Configuration:'
 	@echo '  menuconfig             - interactive curses-based configurator'

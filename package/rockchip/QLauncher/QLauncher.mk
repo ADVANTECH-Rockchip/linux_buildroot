@@ -20,10 +20,8 @@ define QLAUNCHER_BUILD_CMDS
 endef
 
 define QLAUNCHER_INSTALL_TARGET_CMDS
-	mkdir -p $(TARGET_DIR)/usr/local/QLauncher
-	cp $(BUILD_DIR)/QLauncher-$(QLAUNCHER_VERSION)/resources/images/* $(TARGET_DIR)/usr/local/QLauncher/
-	$(INSTALL) -D -m 0755 $(@D)/QLauncher \
-		$(TARGET_DIR)/usr/local/QLauncher/QLauncher
+	$(INSTALL) -D -m 0755 $(@D)/QLauncher	$(TARGET_DIR)/usr/bin/QLauncher
+	$(INSTALL) -D -m 0755 $(@D)/S50launcher	$(TARGET_DIR)/etc/init.d/
 endef
 
 $(eval $(generic-package))

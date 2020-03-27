@@ -6,19 +6,22 @@ MINIGUI_INSTALL_STAGING = YES
 MINIGUI_LICENSE_FILES = COPYING
 MINIGUI_LICENSE = GPLv3
 MINIGUI_AUTORECONF = YES
-MINIGUI_DEPENDENCIES = jpeg libpng
+MINIGUI_DEPENDENCIES = jpeg
 
-##    --host=arm-linux  
-##    --target=arm-linux 
+ifeq ($(BR2_PACKAGE_MINIGUI_ENABLE_RGA),y)
+MINIGUI_DEPENDENCIES += linux-rga
+MINIGUI_CONF_ENV = CFLAGS+=" -DENABLE_RGA=1"
+endif
+
+##    --host=arm-linux
+##    --target=arm-linux
 MINIGUI_CONF_OPTS = \
     --build=i386-linux \
     --with-osname=linux \
-    --with-targetname=drmcon \
     --disable-videopcxvfb \
     --with-ttfsupport=none \
-    --enable-autoial \
+    --disable-autoial \
     --disable-vbfsupport \
-    --disable-tslibial \
     --disable-textmode \
     --enable-vbfsupport \
     --disable-pcxvfb \
@@ -27,13 +30,12 @@ MINIGUI_CONF_OPTS = \
     --disable-jpgsupport \
     --disable-fontcourier \
     --disable-screensaver \
-    --enable-cisco_touchpad_ial \
+    --enable-RKKeyboard_ial \
     --enable-jpgsupport \
     --disable-fontsserif \
     --disable-fontsystem \
     --disable-flatlf \
     --disable-skinlfi \
-    --disable-mousecalibrate \
     --disable-dblclk \
     --disable-consoleps2 \
     --disable-consolems \
@@ -46,11 +48,47 @@ MINIGUI_CONF_OPTS = \
     --disable-static \
     --enable-shared \
     --disable-procs \
-    --disable-cursor \
     --with-runmode=ths \
-    --disable-videofbcon \
-    --enable-videodrmcon \
     --disable-incoreres \
+    --disable-cursor \
+    --enable-mousecalibrate \
     --with-pic
+
+ifeq ($(BR2_PACKAGE_LIBDRM),y)
+MINIGUI_TARGET=drmcon
+MINIGUI_CONF_OPTS += \
+    --enable-videodrmcon \
+    --disable-videofbcon
+
+MINIGUI_DEPENDENCIES += pixman
+else
+MINIGUI_TARGET=fbcon
+MINIGUI_CONF_OPTS += \
+    --enable-videofbcon
+endif
+
+MINIGUI_CONF_OPTS += \
+    --with-targetname=$(MINIGUI_TARGET)
+
+ifeq ($(BR2_PACKAGE_MINIGUI_ENABLE_FREETYPE),y)
+MINIGUI_DEPENDENCIES += freetype
+MINIGUI_CONF_OPTS += \
+    --enable-ttfsupport \
+    --with-ttfsupport=ft2 \
+    --with-ft2-includes=$(STAGING_DIR)/usr/include/freetype2
+endif
+
+ifeq ($(BR2_PACKAGE_MINIGUI_ENABLE_PNG),y)
+MINIGUI_DEPENDENCIES += libpng12
+MINIGUI_CONF_OPTS += \
+    --enable-pngsupport
+endif
+
+ifeq ($(BR2_PACKAGE_TSLIB),y)
+MINIGUI_DEPENDENCIES += tslib
+MINIGUI_CONF_OPTS += \
+    --enable-tslibial
+endif
+
 
 $(eval $(autotools-package))
