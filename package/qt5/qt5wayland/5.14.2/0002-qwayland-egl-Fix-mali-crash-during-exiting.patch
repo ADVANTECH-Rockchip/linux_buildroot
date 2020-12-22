@@ -1,7 +1,7 @@
-From 70d619282f13c1f8389a403cc9f2947e263c55f8 Mon Sep 17 00:00:00 2001
+From 9912a4ec4457910cb1c753374713df508a599e54 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 3 Jan 2019 15:27:59 +0800
-Subject: [PATCH 2/9] qwayland-egl: Fix mali crash during exiting
+Subject: [PATCH 02/13] qwayland-egl: Fix mali crash during exiting
 
 Conflicts:
     src/plugins/platforms/qwayland-egl/qwaylandeglplatformintegration.h

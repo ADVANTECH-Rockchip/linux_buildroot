@@ -94,7 +94,7 @@ define step_pkg_size_end
 
 	if [ -z "$(3)" ]; then \
 		grep "^$(1)," $(BUILD_DIR)/packages-file-list$(3).txt | \
-			cut -d',' -f 2 | sort | uniq | \
+			cut -d',' -f 2- | sort | uniq | \
 			tar --no-recursion --ignore-failed-read -cf $($(PKG)_DIR)/$($(PKG)_BASE_NAME).tar -C $(TARGET_DIR) -T -; true; \
 	fi
 
@@ -204,6 +204,8 @@ $(BUILD_DIR)/%/.stamp_rsynced:
 	rsync -au --chmod=u=rwX,go=rX $(RSYNC_VCS_EXCLUSIONS) $(call qstrip,$(SRCDIR))/ $(@D)
 	$(foreach hook,$($(PKG)_POST_RSYNC_HOOKS),$(call $(hook))$(sep))
 	$(Q)touch $@
+	@test -d $(SRCDIR)/.git && (cd $(SRCDIR) && git status --ignored -s | \
+		grep "" && echo "WARN: $(SRCDIR) is dirty!") || true
 
 # Patch
 #
