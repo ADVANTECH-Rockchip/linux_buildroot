@@ -78,10 +78,64 @@ function main()
 	echo Top of tree: ${TOP_DIR}
 
 	# aka.jiang add : for files more than 100M
-	if [ ! -f ${TOP_DIR}/external/rockx/python/RockX-1.1.0-py3-none-any.whl ]; then
-		cat ${TOP_DIR}/external/rockx/python/RockX-1.1.0-py3-none-any.whl0* > ${TOP_DIR}/external/rockx/python/RockX-1.1.0-py3-none-any.whl
+	if [ ! -f ${TOP_DIR}/external/rockx/python/RockX-1.2.0-py3-none-any.whl ]; then
+		cat ${TOP_DIR}/external/rockx/python/RockX-1.2.0-py3-none-any.whl0* > ${TOP_DIR}/external/rockx/python/RockX-1.2.0-py3-none-any.whl
 	else
-		echo "Alread exist RockX-1.1.0-py3-none-any.whl"
+		echo "Alread exist RockX-1.2.0-py3-none-any.whl"
+	fi
+
+	if [ ! -f ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp35-cp35m-linux_x86_64.whl ]; then
+		cat ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp35-cp35m-linux_x86_64.whl0* > ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp35-cp35m-linux_x86_64.whl
+	else
+		echo "Alread exist rknn_toolkit-1.4.0-cp35-cp35m-linux_x86_64.whl"
+	fi
+
+	if [ ! -f ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp36-cp36m-linux_x86_64.whl ]; then
+		cat ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp36-cp36m-linux_x86_64.whl0* > ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp36-cp36m-linux_x86_64.whl
+	else
+		echo "Alread exist rknn_toolkit-1.4.0-cp36-cp36m-linux_x86_64.whl"
+	fi
+
+	if [ ! -f ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp36-cp36m-win_amd64.whl ]; then
+		cat ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp36-cp36m-win_amd64.whl0* > ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp36-cp36m-win_amd64.whl
+	else
+		echo "Alread exist rknn_toolkit-1.4.0-cp36-cp36m-win_amd64.whl"
+	fi
+
+	if [ ! -f ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp36-cp36m-macosx_10_15_x86_64.whl ]; then
+		cat ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp36-cp36m-macosx_10_15_x86_64.whl0* > ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp36-cp36m-macosx_10_15_x86_64.whl
+	else
+		echo "Alread exist rknn_toolkit-1.4.0-cp36-cp36m-macosx_10_15_x86_64.whl"
+	fi
+
+	if [ ! -f ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp37-cp37m-macosx_10_15_x86_64.whl ]; then
+		cat ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp37-cp37m-macosx_10_15_x86_64.whl0* > ${TOP_DIR}/external/rknn-toolkit/packages/rknn_toolkit-1.4.0-cp37-cp37m-macosx_10_15_x86_64.whl
+	else
+		echo "Alread exist rknn_toolkit-1.4.0-cp37-cp37m-macosx_10_15_x86_64.whl"
+	fi
+
+	if [ ! -f ${TOP_DIR}/buildroot/dl/qtwebengine-everywhere-src-5.13.2.tar.xz ]; then
+		cat ${TOP_DIR}/buildroot/dl/qtwebengine-everywhere-src-5.13.2.tar.xz0* > ${TOP_DIR}/buildroot/dl/qtwebengine-everywhere-src-5.13.2.tar.xz
+	else
+		echo "Alread exist qtwebengine-everywhere-src-5.13.2.tar.xz"
+	fi
+
+	if [ ! -f ${TOP_DIR}/buildroot/dl/qtwebengine-everywhere-src-5.12.7.tar.xz ]; then
+		cat ${TOP_DIR}/buildroot/dl/qtwebengine-everywhere-src-5.12.7.tar.xz0* > ${TOP_DIR}/buildroot/dl/qtwebengine-everywhere-src-5.12.7.tar.xz
+	else
+		echo "Alread exist qtwebengine-everywhere-src-5.12.7.tar.xz"
+	fi
+
+	if [ ! -f ${TOP_DIR}/buildroot/dl/json-v3.0.1.tar.gz ]; then
+		cat ${TOP_DIR}/buildroot/dl/json-v3.0.1.tar.gz0* > ${TOP_DIR}/buildroot/dl/json-v3.0.1.tar.gz
+	else
+		echo "Alread exist json-v3.0.1.tar.gz"
+	fi
+
+	if [ ! -f ${TOP_DIR}/buildroot/dl/qtwebengine-everywhere-src-5.14.2.tar.xz ]; then
+		cat ${TOP_DIR}/buildroot/dl/qtwebengine-everywhere-src-5.14.2.tar.xz0* > ${TOP_DIR}/buildroot/dl/qtwebengine-everywhere-src-5.14.2.tar.xz
+	else
+		echo "Alread exist qtwebengine-everywhere-src-5.14.2.tar.xz"
 	fi
 
 	# Set croot alias
