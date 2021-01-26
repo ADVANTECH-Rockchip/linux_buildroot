@@ -5,11 +5,10 @@ CATKIN_VERSION = 0.6.19
 CATKIN_ROS_DIR = /opt/ros/indigo
 endif
 
-CATKIN_SITE = https://github.com/ros/catkin/archive
-CATKIN_SOURCE = $(CATKIN_VERSION).tar.gz
+CATKIN_SITE = $(call github,ros,catkin,$(CATKIN_VERSION))
 CATKIN_INSTALL_STAGING = YES
 
-HOST_CATKIN_DEPENDENCIES += host-python-catkin_pkg host-python-em host-python-empy host-python-pyparsing
+HOST_CATKIN_DEPENDENCIES += host-python-catkin_pkg host-python-em host-python-empy
 
 HOST_CATKIN_CONF_OPTS += -DCMAKE_INSTALL_PREFIX=$(HOST_DIR)$(CATKIN_ROS_DIR)
 
